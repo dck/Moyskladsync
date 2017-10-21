@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require './lib/moyskladsync'
+
+module Moyskladsync
+  Logger.info('Sync is starting')
+  Logger.info('Sync is finishing')
+end
