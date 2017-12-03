@@ -7,10 +7,8 @@ module Moyskladsync
 
       def to_product
         Product.new(
+          id: id,
           name: name,
-          abv: abv,
-          og: og,
-          ib: ibu,
           wholesale_price: wholesale_price,
           retail_price: retail_price,
           other: []
@@ -18,6 +16,10 @@ module Moyskladsync
       end
 
       private
+
+      def id
+        payload['id']
+      end
 
       def name
         payload['name']
@@ -41,6 +43,7 @@ module Moyskladsync
 
     class Moysklad
       PRODUCT_ENDPOINT = 'https://online.moysklad.ru/api/remap/1.1/entity/product'.freeze
+      STOCK_ENDPOINT = 'https://online.moysklad.ru/api/remap/1.1/report/stock/all'.freeze
       STEP = 100
 
       def initialize(login, password)
@@ -55,11 +58,16 @@ module Moyskladsync
             items = get_json(page_url(offset, STEP))['rows']
             break if items.size.zero?
             items.each do |item|
-              yielder << Product.new(item)
+              yielder << MoyskladItem.new(item)
             end
             offset += STEP
           end
         end
+      end
+
+      def quantity(product)
+        url = stock_url(product.id)
+        get_json(url)['rows']&.first&.[]('stock') || 0.0
       end
 
       private
@@ -78,6 +86,10 @@ module Moyskladsync
 
       def page_url(offset, limit)
         "#{PRODUCT_ENDPOINT}?offset=#{offset}&limit=#{limit}"
+      end
+
+      def stock_url(id)
+        "#{STOCK_ENDPOINT}?product.id=#{id}"
       end
 
       attr_reader :login, :password

@@ -1,5 +1,6 @@
 module Moyskladsync
-  Product = Struct.new(
+  Product = KeywordStruct.new(
+    :id,
     :name,
     :abv,
     :og,

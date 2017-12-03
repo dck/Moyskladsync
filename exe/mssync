@@ -4,5 +4,16 @@ require './lib/moyskladsync'
 
 module Moyskladsync
   Logger.info('Sync is starting')
+  client = Clients::Moysklad.new('', '')
+
+  quantities = client.products.each_with_object({}) do |p, hsh|
+    product = p.to_product
+    hsh[product.name] = client.quantity(product)
+  end
+
+  quantities.sort_by { |p, q| q }.reverse.each do |p, q|
+    puts "#{q} - #{p}"
+  end
+
   Logger.info('Sync is finishing')
 end
