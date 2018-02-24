@@ -19,7 +19,6 @@ module Moyskladsync
 
       def clear
         worksheet.delete_rows(1, worksheet.num_rows)
-        save
       end
 
       private
