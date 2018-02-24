@@ -8,10 +8,9 @@ module Moyskladsync
       def to_product
         Product.new(
           id: id,
-          name: name,
+          full_name: name,
           wholesale_price: wholesale_price,
-          retail_price: retail_price,
-          other: []
+          retail_price: retail_price
         )
       end
 

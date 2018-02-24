@@ -5,17 +5,31 @@ module Moyskladsync
       @destination = destination
     end
 
-    def start
+    def start!
+      Logger.info('Sync is starting')
+      destination.clear
+      Logger.info('The destination is cleared')
+
+      products_to_export.sort_by { |p, _| p.full_name }.each do |p, q|
+        destination.add_product(p)
+      end
+      Logger.info('Products have been exported')
+
+      destination.save
+      Logger.info('Sync is finished')
     end
 
     private
 
-    def source_products
-      source.products.to_a
-    end
+    def products_to_export
+      quantities = source.products.each_with_object({}) do |p, hsh|
+        product = p.to_product
+        hsh[product] = source.quantity(product)
+      end
 
-    def destination_products
-      destination.products.to_a
+      quantities.select do |p, q|
+        q > 0 && p.full_name.include?('ABV')
+      end
     end
 
     attr_reader :source, :destination

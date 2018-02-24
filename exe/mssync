@@ -3,17 +3,10 @@
 require './lib/moyskladsync'
 
 module Moyskladsync
-  Logger.info('Sync is starting')
-  client = Clients::Moysklad.new('', '')
+  ms_client = Clients::Moysklad.new(ENV['MOYSKLAD_LOGIN'], ENV['MOYSKLAD_PASS'])
 
-  quantities = client.products.each_with_object({}) do |p, hsh|
-    product = p.to_product
-    hsh[product.name] = client.quantity(product)
-  end
+  json_io = StringIO.new(ENV['GCLOUD_SECRET'])
+  google_client = Clients::Gdrive.new(json_io, ENV['GCLOUD_DOCUMENT_ID'])
 
-  quantities.sort_by { |p, q| q }.reverse.each do |p, q|
-    puts "#{q} - #{p}"
-  end
-
-  Logger.info('Sync is finishing')
+  Sync.new(source: ms_client, destination: google_client).start!
 end

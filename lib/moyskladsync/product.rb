@@ -1,12 +1,8 @@
 module Moyskladsync
   Product = KeywordStruct.new(
     :id,
-    :name,
-    :abv,
-    :og,
-    :ibu,
+    :full_name,
     :wholesale_price,
-    :retail_price,
-    :other
+    :retail_price
   )
 end
