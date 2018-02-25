@@ -9,7 +9,7 @@ module Moyskladsync
       def add_product(product)
         worksheet.insert_rows(
           worksheet.num_rows + 1,
-          [[product.full_name]]
+          [product.to_row]
         )
       end
 
