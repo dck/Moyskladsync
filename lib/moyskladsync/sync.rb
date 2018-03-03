@@ -7,13 +7,12 @@ module Moyskladsync
 
     def start!
       Logger.info('Sync is starting')
+
       destination.clear
       Logger.info('The destination is cleared')
 
-      products_to_export.sort_by { |p, _| p.full_name }.each.with_index(2) do |(p, q), i|
-        Logger.info("#{p.name} is placed to #{i} position")
-        destination.add_product(i, p)
-      end
+      rows = products_to_export.sort_by { |p, _| p.full_name }.map(&:to_row)
+      destination.add_products(2, rows)
       Logger.info('Products have been exported')
 
       destination.save
@@ -30,7 +29,7 @@ module Moyskladsync
 
       quantities.select do |p, q|
         q > 0 && p.full_name.include?('ABV')
-      end
+      end.keys
     end
 
     attr_reader :source, :destination
