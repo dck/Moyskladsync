@@ -11,6 +11,7 @@ module Moyskladsync
       Logger.info('The destination is cleared')
 
       products_to_export.sort_by { |p, _| p.full_name }.each.with_index(2) do |(p, q), i|
+        Logger.info("#{p.name} is placed to #{i} position")
         destination.add_product(i, p)
       end
       Logger.info('Products have been exported')

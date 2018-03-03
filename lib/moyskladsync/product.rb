@@ -19,11 +19,11 @@ module Moyskladsync
     private
 
     def options_substring
-      full_name[full_name.rindex('(')+1...full_name.size-1]
+      full_name[full_name.rindex('(') + 1...full_name.size - 1]
     end
 
     def title_substring
-      full_name[0...full_name.rindex('(')-1]
+      full_name[0...full_name.rindex('(') - 1]
     end
   end
 end
