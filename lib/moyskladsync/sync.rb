@@ -10,8 +10,8 @@ module Moyskladsync
       destination.clear
       Logger.info('The destination is cleared')
 
-      products_to_export.sort_by { |p, _| p.full_name }.each do |p, q|
-        destination.add_product(p)
+      products_to_export.sort_by { |p, _| p.full_name }.each.with_index(2) do |(p, q), i|
+        destination.add_product(i, p)
       end
       Logger.info('Products have been exported')
 

@@ -6,9 +6,9 @@ module Moyskladsync
         @spreadsheet_id = spreadsheet_id
       end
 
-      def add_product(product)
+      def add_product(index, product)
         worksheet.insert_rows(
-          worksheet.num_rows + 1,
+          index,
           [product.to_row]
         )
       end
@@ -18,7 +18,7 @@ module Moyskladsync
       end
 
       def clear
-        worksheet.delete_rows(2, worksheet.num_rows)
+        worksheet.delete_rows(2, worksheet.num_rows - 1)
       end
 
       private
