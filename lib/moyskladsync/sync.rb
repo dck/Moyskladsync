@@ -12,7 +12,7 @@ module Moyskladsync
       Logger.info('The destination is cleared')
 
       rows = products_to_export.sort_by { |p, _| p.full_name }.map(&:to_row)
-      destination.add_products(2, rows)
+      destination.add_products(rows)
       Logger.info('Products have been exported')
 
       destination.save

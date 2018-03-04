@@ -6,8 +6,8 @@ module Moyskladsync
         @spreadsheet_id = spreadsheet_id
       end
 
-      def add_products(index, products)
-        worksheet.insert_rows(index, products)
+      def add_products(products)
+        worksheet.update_cells(2, 1, products)
       end
 
       def save
@@ -15,7 +15,7 @@ module Moyskladsync
       end
 
       def clear
-        worksheet.delete_rows(2, worksheet.num_rows - 1)
+        worksheet.delete_rows(2, worksheet.max_rows - 1)
       end
 
       private
