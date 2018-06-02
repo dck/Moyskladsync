@@ -24,6 +24,7 @@ module Moyskladsync
     def products_to_export
       quantities = source.products.each_with_object({}) do |p, hsh|
         product = p.to_product
+        next unless product.category == 'Пиво'
         hsh[product] = source.quantity(product)
       end
 

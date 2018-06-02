@@ -1,5 +1,5 @@
 module Moyskladsync
-  Product = KeywordStruct.new(:id, :full_name, :wholesale_price, :retail_price) do
+  Product = KeywordStruct.new(:id, :full_name, :category, :wholesale_price, :retail_price) do
     def brewery
       full_name.match(/(.+?)\s+-/)[1]
     end

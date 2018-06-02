@@ -9,6 +9,7 @@ module Moyskladsync
         Product.new(
           id: id,
           full_name: name,
+          category: category,
           wholesale_price: wholesale_price,
           retail_price: retail_price
         )
@@ -35,6 +36,10 @@ module Moyskladsync
 
       def normalized_price(price)
         price.to_i / 100
+      end
+
+      def category
+        payload['pathName'].split('/', 2).first
       end
 
       attr_reader :payload
